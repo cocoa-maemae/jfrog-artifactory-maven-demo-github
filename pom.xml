@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>maven-sample</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>maven-sample</name>
+  <description>Simple Maven package sample</description>
+  <url>https://example.com/maven-sample</url>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <junit.jupiter.version>5.10.3</junit.jupiter.version>
+    <!-- Artifactory settings -->
+    <artifactory.baseUrl>https://soleng.jfrog.io/artifactory</artifactory.baseUrl>
+    <artifactory.repo.virtual>tomokim-dev-backend-virtual-maven-dev-japan</artifactory.repo.virtual>
+    <artifactory.repo.releases>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.releases>
+    <artifactory.repo.snapshots>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.snapshots>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Resolve dependencies and plugins from Artifactory virtual repo -->
+  <repositories>
+    <repository>
+      <id>artifactory</id>
+      <url>${artifactory.baseUrl}/${artifactory.repo.virtual}</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>artifactory</id>
+      <url>${artifactory.baseUrl}/${artifactory.repo.virtual}</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <!-- Deploy artifacts to Artifactory local repos -->
+  <distributionManagement>
+    <repository>
+      <id>artifactory</id>
+      <url>${artifactory.baseUrl}/${artifactory.repo.releases}</url>
+    </repository>
+    <snapshotRepository>
+      <id>artifactory</id>
+      <url>${artifactory.baseUrl}/${artifactory.repo.snapshots}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.example.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <useModulePath>false</useModulePath>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+
+
