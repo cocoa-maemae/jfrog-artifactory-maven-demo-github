@@ -48,6 +48,7 @@ jobs:
       run: |
         # Configure Maven to use Artifactory virtual repository
         jf mvnc --repo-resolve-snapshots tomokim-dev-backend-maven-dev-virtual --repo-resolve-releases tomokim-dev-backend-maven-dev-virtual --repo-deploy-snapshots tomokim-dev-backend-maven-dev-local --repo-deploy-releases tomokim-dev-backend-maven-dev-local
+        
         # Create minimal settings.xml to avoid security issues
         mkdir -p ~/.m2
         cat > ~/.m2/settings.xml << EOF
@@ -60,6 +61,14 @@ jobs:
               <password>dummy</password>
             </server>
           </servers>
+          <mirrors>
+            <mirror>
+              <id>artifactory</id>
+              <name>Artifactory</name>
+              <url>https://soleng.jfrog.io/artifactory/tomokim-dev-backend-maven-dev-virtual</url>
+              <mirrorOf>*</mirrorOf>
+            </mirror>
+          </mirrors>
         </settings>
         EOF
        
