@@ -73,13 +73,7 @@ jobs:
         jf rt search "tomokim-dev-backend-maven-dev-virtual/*" --count
 
     - name: Run tests and build project
-      run: mvn clean package
-
-    - name: Check remote repository after build
-      run: |
-        echo "Checking remote repository after Maven build..."
-        jf rt search "tomokim-dev-backend-maven-dev-remote/org/apache/commons/commons-lang3/3.12.0/*" --count
-        jf rt search "tomokim-dev-backend-maven-dev-remote/com/fasterxml/jackson/core/jackson-databind/2.15.2/*" --count
+      run: mvn clean package -X
 
     - name: Upload to Artifactory
       run: |
