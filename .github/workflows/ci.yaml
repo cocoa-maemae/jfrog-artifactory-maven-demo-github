@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  test_build_publish:
     runs-on: ubuntu-latest
     
     steps:
@@ -44,6 +44,11 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
   
+    - name: Configure Maven for Artifactory
+      run: |
+        # Configure Maven to use Artifactory virtual repository
+        jf rt mvn-config --repo-resolve tomokim-dev-backend-maven-dev-virtual --repo-deploy tomokim-dev-backend-maven-dev-local
+
     - name: Check JFrog connectivity
       run: |
         # Ping the server
@@ -56,9 +61,9 @@ jobs:
     - name: Run tests and build project
       run: mvn clean package
 
-    #- name: Upload to JFrog Artifactory
-    #  run: |
-    #    # Upload JAR files to Artifactory
-    #    jf rt upload "target/*.jar" "tomokim-dev-backend-local-maven-dev-japan/com/example/maven-sample/1.0.0-SNAPSHOT/"
-    #    # Publish build info
-    #    jf rt bp
+    - name: Upload to Artifactory
+      run: |
+        # Upload JAR files to Artifactory local repository
+        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-dev-local/com/example/maven-sample/1.0.0-SNAPSHOT/"
+        # Publish build info
+        jf rt bp
