@@ -73,7 +73,9 @@ jobs:
         jf rt search "tomokim-dev-backend-maven-dev-virtual/*" --count
 
     - name: Run tests and build project
-      run: mvn clean package -X
+      run:  |
+        mvn dependency:purge-local-repository
+        mvn clean package
 
     - name: Upload to Artifactory
       run: |
