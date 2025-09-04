@@ -19,7 +19,6 @@
     <junit.jupiter.version>5.10.3</junit.jupiter.version>
     <!-- Artifactory settings -->
     <artifactory.baseUrl>https://soleng.jfrog.io/artifactory</artifactory.baseUrl>
-    <artifactory.repo.virtual>tomokim-dev-backend-virtual-maven-dev-japan</artifactory.repo.virtual>
     <artifactory.repo.releases>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.releases>
     <artifactory.repo.snapshots>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.snapshots>
   </properties>
@@ -33,32 +32,6 @@
     </dependency>
   </dependencies>
 
-  <!-- Resolve dependencies and plugins from Artifactory virtual repo -->
-  <repositories>
-    <repository>
-      <id>artifactory</id>
-      <url>${artifactory.baseUrl}/${artifactory.repo.virtual}</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>artifactory</id>
-      <url>${artifactory.baseUrl}/${artifactory.repo.virtual}</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 
   <!-- Deploy artifacts to Artifactory local repos -->
   <distributionManagement>

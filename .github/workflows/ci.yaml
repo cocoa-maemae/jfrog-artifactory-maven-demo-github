@@ -47,7 +47,7 @@ jobs:
     - name: Configure Maven for Artifactory
       run: |
         # Configure Maven to use Artifactory virtual repository
-        jf rt mvn-config --repo-resolve tomokim-dev-backend-maven-dev-virtual --repo-deploy tomokim-dev-backend-maven-dev-local
+        jf mvnc --repo-resolve-snapshots tomokim-dev-backend-maven-dev-virtual --repo-resolve-releases tomokim-dev-backend-maven-dev-virtual --repo-deploy-snapshots tomokim-dev-backend-maven-dev-local --repo-deploy-releases tomokim-dev-backend-maven-dev-local
 
     - name: Check JFrog connectivity
       run: |
