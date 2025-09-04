@@ -11,7 +11,7 @@
     <mirror>
       <id>artifactory</id>
       <name>Artifactory</name>
-      <url>https://soleng.jfrog.io/artifactory/tomokim-dev-backend-virtual-maven-dev-japan</url>
+      <url>https://soleng.jfrog.io/artifactory/tomokim-dev-backend-maven-dev-virtual</url>
       <mirrorOf>*</mirrorOf>
     </mirror>
   </mirrors>

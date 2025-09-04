@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main, dev ]
 
-# OIDC setting
+# OIDC settings
 permissions:
   # This is required for requesting the OIDC token
   id-token: write
@@ -64,6 +64,6 @@ jobs:
     - name: Upload to Artifactory
       run: |
         # Upload JAR files to Artifactory local repository
-        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-dev-local/com/example/maven-sample/1.0.0-SNAPSHOT/"
+        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-dev-local/"
         # Publish build info
         jf rt bp
