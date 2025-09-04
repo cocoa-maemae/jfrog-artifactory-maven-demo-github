@@ -48,6 +48,20 @@ jobs:
       run: |
         # Configure Maven to use Artifactory virtual repository
         jf mvnc --repo-resolve-snapshots tomokim-dev-backend-maven-dev-virtual --repo-resolve-releases tomokim-dev-backend-maven-dev-virtual --repo-deploy-snapshots tomokim-dev-backend-maven-dev-local --repo-deploy-releases tomokim-dev-backend-maven-dev-local
+        # Create minimal settings.xml to avoid security issues
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <settings>
+          <servers>
+            <server>
+              <id>soleng.jfrog.io</id>
+              <username>github-actions</username>
+              <password>dummy</password>
+            </server>
+          </servers>
+        </settings>
+        EOF
 
     - name: Check JFrog connectivity
       run: |
@@ -59,7 +73,7 @@ jobs:
         jf rt bag
 
     - name: Run tests and build project
-      run: mvn clean package -X
+      run: mvn clean package
 
     - name: Upload to Artifactory
       run: |
