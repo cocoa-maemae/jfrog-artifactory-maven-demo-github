@@ -59,7 +59,7 @@ jobs:
         jf rt bag
 
     - name: Run tests and build project
-      run: mvn clean package
+      run: mvn clean package -X
 
     - name: Upload to Artifactory
       run: |
