@@ -49,9 +49,9 @@ jobs:
     - name: Run tests and build project
       run: mvn clean package
 
-    #- name: Upload to Jfrot Artifactory
+    #- name: Upload to JFrog Artifactory
     #  run: |
     #    # Upload JAR files to Artifactory
-    #     jf rt upload "target/*.jar" "tomokim-dev-backend-local-maven-dev-japan/com/example/maven-sample/1.0.0-SNAPSHOT/"
+    #    jf rt upload "target/*.jar" "tomokim-dev-backend-local-maven-dev-japan/com/example/maven-sample/1.0.0-SNAPSHOT/"
     #    # Publish build info
-        jf rt bp
+    #    jf rt bp
