@@ -76,14 +76,6 @@ jobs:
               <password>dummy</password>
             </server>
           </servers>
-          <mirrors>
-            <mirror>
-              <id>artifactory</id>
-              <name>Artifactory</name>
-              <url>https://soleng.jfrog.io/artifactory/tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual</url>
-              <mirrorOf>*</mirrorOf>
-            </mirror>
-          </mirrors>
         </settings>
         EOF
        
