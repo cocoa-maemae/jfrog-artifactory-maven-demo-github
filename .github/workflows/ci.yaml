@@ -60,7 +60,7 @@ jobs:
         # Configure Maven to use Artifactory virtual repository based on branch
         jf mvnc \
           --repo-resolve-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-remote \
-          --repo-resolve-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual \
+          --repo-resolve-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-remote \
           --repo-deploy-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local \
           --repo-deploy-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local
         
