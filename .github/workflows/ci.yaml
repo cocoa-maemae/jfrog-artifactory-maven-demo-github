@@ -44,10 +44,25 @@ jobs:
     #    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
     #    restore-keys: ${{ runner.os }}-m2
   
+          - name: Set environment variables based on branch
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+            echo "REPO_ENV=prod" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+            echo "REPO_ENV=dev" >> $GITHUB_ENV
+          else
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+            echo "REPO_ENV=dev" >> $GITHUB_ENV
+          fi
+          echo "Environment: $ENVIRONMENT"
+          echo "Repository environment: $REPO_ENV"
+
     - name: Configure Maven for Artifactory
       run: |
-        # Configure Maven to use Artifactory virtual repository
-        jf mvnc --repo-resolve-snapshots tomokim-dev-backend-maven-dev-virtual --repo-resolve-releases tomokim-dev-backend-maven-dev-virtual --repo-deploy-snapshots tomokim-dev-backend-maven-dev-local --repo-deploy-releases tomokim-dev-backend-maven-dev-local
+        # Configure Maven to use Artifactory virtual repository based on branch
+        jf mvnc --repo-resolve-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual --repo-resolve-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual --repo-deploy-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local --repo-deploy-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local
         
         # Create minimal settings.xml to avoid security issues
         mkdir -p ~/.m2
@@ -65,7 +80,7 @@ jobs:
             <mirror>
               <id>artifactory</id>
               <name>Artifactory</name>
-              <url>https://soleng.jfrog.io/artifactory/tomokim-dev-backend-maven-dev-virtual</url>
+              <url>https://soleng.jfrog.io/artifactory/tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual</url>
               <mirrorOf>*</mirrorOf>
             </mirror>
           </mirrors>
@@ -78,8 +93,8 @@ jobs:
         jf rt ping
         # Test remote repository access
         echo "Testing remote repository access..."
-        jf rt search "tomokim-dev-backend-maven-dev-remote/*" --count
-        jf rt search "tomokim-dev-backend-maven-dev-virtual/*" --count
+        jf rt search "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-remote/*" --count
+        jf rt search "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual/*" --count
 
     - name: Run tests and build project
       run: |
@@ -90,7 +105,7 @@ jobs:
 
     - name: Upload to Artifactory
       run: |
-        # Upload JAR files to Artifactory local repository
-        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-dev-local/"
+        # Upload JAR files to Artifactory local repository based on environment
+        jf rt upload "target/*.jar" "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local/"
         # Publish build info
         jf rt bp
