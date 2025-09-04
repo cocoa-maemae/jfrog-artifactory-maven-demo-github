@@ -73,7 +73,7 @@ jobs:
         jf rt search "tomokim-dev-backend-maven-dev-virtual/*" --count
 
     - name: Run tests and build project
-      run:  |
+      run: |
         # purge local mave cache
         mvn dependency:purge-local-repository
         # test and build
