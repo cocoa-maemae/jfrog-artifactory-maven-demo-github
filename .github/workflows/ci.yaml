@@ -45,7 +45,7 @@ jobs:
     #    restore-keys: ${{ runner.os }}-m2
   
     - name: Set environment variables based on branch
-        run: |
+      run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             echo "ENVIRONMENT=prod" >> $GITHUB_ENV
             echo "REPO_ENV=prod" >> $GITHUB_ENV
