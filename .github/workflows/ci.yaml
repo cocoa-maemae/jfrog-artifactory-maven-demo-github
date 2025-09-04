@@ -71,10 +71,23 @@ jobs:
         echo "Testing remote repository access..."
         jf rt search "tomokim-dev-backend-maven-dev-remote/*" --count
         jf rt search "tomokim-dev-backend-maven-dev-virtual/*" --count
+        # Test specific artifact access
+        echo "Testing specific artifact access..."
+        jf rt search "tomokim-dev-backend-maven-dev-virtual/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" --transitive
+        # Check repository configuration
+        echo "Checking repository configuration..."
+        jf rt repo-template remote-repo-config.json
+        cat remote-repo-config.json
         
 
     - name: Run tests and build project
       run: mvn clean package
+
+    - name: Check remote repository after build
+      run: |
+        echo "Checking remote repository after Maven build..."
+        jf rt search "tomokim-dev-backend-maven-dev-remote/org/apache/commons/commons-lang3/3.12.0/*" --count
+        jf rt search "tomokim-dev-backend-maven-dev-remote/com/fasterxml/jackson/core/jackson-databind/2.15.2/*" --count
 
     - name: Upload to Artifactory
       run: |
