@@ -47,22 +47,22 @@ jobs:
     - name: Set environment variables based on branch
       run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "ENVIRONMENT=prod" >> $GITHUB_ENV
             echo "REPO_ENV=prod" >> $GITHUB_ENV
           elif [[ "${{ github.ref_name }}" == "dev" ]]; then
-            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
             echo "REPO_ENV=dev" >> $GITHUB_ENV
           else
-            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
             echo "REPO_ENV=dev" >> $GITHUB_ENV
           fi
-          echo "Environment: $ENVIRONMENT"
           echo "Repository environment: $REPO_ENV"
 
     - name: Configure Maven for Artifactory
       run: |
         # Configure Maven to use Artifactory virtual repository based on branch
-        jf mvnc --repo-resolve-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual --repo-resolve-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual --repo-deploy-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local --repo-deploy-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local
+        jf mvnc \
+          --repo-resolve-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-remote \
+          --repo-resolve-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual \
+          --repo-deploy-snapshots tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local \
+          --repo-deploy-releases tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-local
         
         # Create minimal settings.xml to avoid security issues
         mkdir -p ~/.m2

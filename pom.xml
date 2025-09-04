@@ -43,7 +43,6 @@
     </dependency>
   </dependencies>
 
-
   <!-- Deploy artifacts to Artifactory local repos -->
   <distributionManagement>
     <repository>
