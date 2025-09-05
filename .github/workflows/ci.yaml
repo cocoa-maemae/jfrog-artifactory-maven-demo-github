@@ -94,8 +94,11 @@ jobs:
     - name: Upload to Artifactory
       run: |
         # Upload JAR files to Artifactory local repository based on environment
-        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-${{ env.REPO_ENV }}-local/"
-        # Publish build info
+        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-${{ env.REPO_ENV }}-virtual/"
+
+        # Collect environment variables and add them to build (bce | build-collect-env)
         jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
+        # Collect VCS details from .git and add them to the build (bag | build-add-git)
         jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
+        # Publish build info (bp | build-publish)
         jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
