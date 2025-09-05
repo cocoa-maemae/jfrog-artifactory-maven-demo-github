@@ -40,12 +40,12 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         
-    - name: Cache Maven dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+    #- name: Cache Maven dependencies
+    #  uses: actions/cache@v4
+    #  with:
+    #    path: ~/.m2
+    #    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    #    restore-keys: ${{ runner.os }}-m2
   
     - name: Set environment variables based on branch
       run: |
@@ -79,17 +79,9 @@ jobs:
       run: |
         # Ping the server
         jf rt ping
-        # Test remote repository access
-        # echo "Testing remote repository access..."
-        # jf rt search "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-remote/*" --count
-        # jf rt search "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual/*" --count
 
     - name: Run tests and build project
       run: |
-        # purge local mave cache
-        #mvn dependency:purge-local-repository
-        # test and build
-        #mvn clean package
         # Configure Maven to use Artifactory virtual repository based on branch
         jf mvnc \
           --repo-resolve-snapshots tomokim-dev-backend-maven-${{ env.REPO_ENV }}-virtual \
