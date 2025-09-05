@@ -2,24 +2,28 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
+
+# OIDC settings
+permissions:
+  # This is required for requesting the OIDC token
+  id-token: write
+  # This is required for actions/checkout
+  contents: read
+
+env:
+  BUILD_NAME: "maven-build-github-demo"
 
 jobs:
-  build:
+  test_build_publish:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v4
       env:
@@ -29,6 +33,12 @@ jobs:
         # Name of the OIDC provider as specified on the OIDC integration page in the JFrog Platform
         oidc-provider-name: tomokim-github-actions-integration 
         oidc-audience: tomokim-github-actions-integration
+    
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
         
     - name: Cache Maven dependencies
       uses: actions/cache@v4
@@ -37,17 +47,63 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
   
+    - name: Set environment variables based on branch
+      run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "REPO_ENV=prod" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "dev" ]]; then
+            echo "REPO_ENV=dev" >> $GITHUB_ENV
+          else
+            echo "REPO_ENV=dev" >> $GITHUB_ENV
+          fi
+          echo "Repository environment: $REPO_ENV"
+
+    - name: Configure Maven
+      run: |
+        # Create minimal settings.xml to avoid security issues
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <settings>
+          <servers>
+            <server>
+              <id>soleng.jfrog.io</id>
+              <username>github-actions</username>
+              <password>dummy</password>
+            </server>
+          </servers>
+        </settings>
+        EOF
+       
     - name: Check JFrog connectivity
       run: |
         # Ping the server
         jf rt ping
+        # Test remote repository access
+        # echo "Testing remote repository access..."
+        # jf rt search "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-remote/*" --count
+        # jf rt search "tomokim-${{ env.REPO_ENV }}-backend-maven-${{ env.REPO_ENV }}-virtual/*" --count
 
     - name: Run tests and build project
-      run: mvn clean package
+      run: |
+        # purge local mave cache
+        #mvn dependency:purge-local-repository
+        # test and build
+        #mvn clean package
+        # Configure Maven to use Artifactory virtual repository based on branch
+        jf mvnc \
+          --repo-resolve-snapshots tomokim-dev-backend-maven-${{ env.REPO_ENV }}-virtual \
+          --repo-resolve-releases tomokim-dev-backend-maven-${{ env.REPO_ENV }}-virtual \
+          --repo-deploy-snapshots tomokim-dev-backend-maven-${{ env.REPO_ENV }}-local \
+          --repo-deploy-releases tomokim-dev-backend-maven-${{ env.REPO_ENV }}-local
+        # test and build
+        jf mvn clean install --build-name=$BUILD_NAME --build-number=$GITHUB_RUN_NUMBER
 
-    #- name: Upload to Jfrot Artifactory
-    #  run: |
-    #    # Upload JAR files to Artifactory
-    #     jf rt upload "target/*.jar" "tomokim-dev-backend-local-maven-dev-japan/com/example/maven-sample/1.0.0-SNAPSHOT/"
-    #    # Publish build info
-        jf rt bp
+    - name: Upload to Artifactory
+      run: |
+        # Upload JAR files to Artifactory local repository based on environment
+        jf rt upload "target/*.jar" "tomokim-dev-backend-maven-${{ env.REPO_ENV }}-local/"
+        # Publish build info
+        jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
+        jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
+        jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER

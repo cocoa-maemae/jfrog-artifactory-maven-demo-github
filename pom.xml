@@ -6,7 +6,7 @@
 
   <groupId>com.example</groupId>
   <artifactId>maven-sample</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>maven-sample</name>
   <description>Simple Maven package sample</description>
   <url>https://example.com/maven-sample</url>
@@ -19,7 +19,6 @@
     <junit.jupiter.version>5.10.3</junit.jupiter.version>
     <!-- Artifactory settings -->
     <artifactory.baseUrl>https://soleng.jfrog.io/artifactory</artifactory.baseUrl>
-    <artifactory.repo.virtual>tomokim-dev-backend-virtual-maven-dev-japan</artifactory.repo.virtual>
     <artifactory.repo.releases>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.releases>
     <artifactory.repo.snapshots>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.snapshots>
   </properties>
@@ -31,34 +30,18 @@
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- テスト用の依存ライブラリ -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.12.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.15.2</version>
+    </dependency>
   </dependencies>
-
-  <!-- Resolve dependencies and plugins from Artifactory virtual repo -->
-  <repositories>
-    <repository>
-      <id>artifactory</id>
-      <url>${artifactory.baseUrl}/${artifactory.repo.virtual}</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>artifactory</id>
-      <url>${artifactory.baseUrl}/${artifactory.repo.virtual}</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 
   <!-- Deploy artifacts to Artifactory local repos -->
   <distributionManagement>

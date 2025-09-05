@@ -1,0 +1,18 @@
+<settings>
+  <servers>
+    <server>
+      <id>artifactory</id>
+      <username>your id</username>
+      <password>your api token</password>
+    </server>
+  </servers>
+
+  <mirrors>
+    <mirror>
+      <id>artifactory</id>
+      <name>Artifactory</name>
+      <url>https://soleng.jfrog.io/artifactory/tomokim-dev-backend-maven-dev-virtual</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+</settings>
