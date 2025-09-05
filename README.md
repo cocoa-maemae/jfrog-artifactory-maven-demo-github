@@ -10,7 +10,7 @@ JFrog ArtifactoryとGitHub Actionsを連携したMavenプロジェクトのデ�
 - Maven 3.6+
 - JFrog Platform へのアクセス権限
 
-### Maven設定
+### ローカルPCなど開発環境の設定
 
 1. **settings.xml.templateをコピー**
    ```bash
@@ -47,15 +47,14 @@ mvn clean deploy
 
 ### GitHub Actions
 
-このプロジェクトはGitHub Actionsを使用してCI/CDを実行します：
+このプロジェクトはGitHub Actions、JFrog CLIを使用してCIを実行します：
 
 - **トリガー**: `main`と`dev`ブランチへのプッシュ/プルリクエスト
 - **実行内容**:
-  - Java 21でのビルド
-  - テストの実行
+  - Java 21 + JFrog CLIでテストとビルドを実行
   - Artifactoryへのアーティファクトアップロード
 
-### Artifactory設定
+### JFrog Artifactory設定
 
 - **仮想リポジトリ**: `tomokim-dev-backend-maven-dev-virtual`
 - **ローカルリポジトリ**: `tomokim-dev-backend-maven-dev-local`
