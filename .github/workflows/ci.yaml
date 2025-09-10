@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  BUILD_NAME: "maven-build-github-demo"
+  BUILD_NAME: "tomokim-maven-github-demo"
 
 jobs:
   test_build_publish:
@@ -93,7 +93,7 @@ jobs:
 
     - name: Upload to Artifactory
       run: |
-        # Upload JAR files to Artifactory local repository based on environment
+        # Upload JAR files to Artifactory local repository based on environment. Here specifies a virtual respoitory.
         jf rt upload "target/*.jar" "tomokim-dev-backend-maven-${{ env.REPO_ENV }}-virtual/"
 
         # Collect environment variables and add them to build (bce | build-collect-env)
