@@ -102,4 +102,4 @@ jobs:
         #jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
         # Publish build info (bp | build-publish)
         #jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
-        jt rt bp
+        jf rt bp
