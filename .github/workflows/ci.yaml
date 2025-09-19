@@ -1,4 +1,4 @@
-name: CI
+name: tomokim-maven-demo-github
 
 on:
   push:
