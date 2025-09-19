@@ -19,8 +19,8 @@
     <junit.jupiter.version>5.10.3</junit.jupiter.version>
     <!-- Artifactory settings -->
     <artifactory.baseUrl>https://soleng.jfrog.io/artifactory</artifactory.baseUrl>
-    <artifactory.repo.releases>td-backend-maven-dev-local</artifactory.repo.releases>
-    <artifactory.repo.snapshots>td-backend-maven-dev-local</artifactory.repo.snapshots>
+    <artifactory.repo.releases>td-backend-maven-test-local</artifactory.repo.releases>
+    <artifactory.repo.snapshots>td-backend-maven-test-local</artifactory.repo.snapshots>
   </properties>
 
   <dependencies>
