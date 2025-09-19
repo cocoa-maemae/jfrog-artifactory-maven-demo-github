@@ -15,6 +15,10 @@ permissions:
 
 env:
   BUILD_NAME: "tomokim-maven-demo-github"
+  #VIRTUAL_REPO: "td-backend-maven-dev-virtual"
+  VIRTUAL_REPO: "td-backend-maven-test-virtual"
+  #LOCAL_REPO: "td-backend-maven-dev-local"
+  LOCAL_REPO: "td-backend-maven-test-local"
 
 jobs:
   test_build_publish:
@@ -84,17 +88,17 @@ jobs:
       run: |
         # Configure Maven to use Artifactory virtual repository based on branch
         jf mvnc \
-          --repo-resolve-snapshots td-backend-maven-${{ env.REPO_ENV }}-virtual \
-          --repo-resolve-releases td-backend-maven-${{ env.REPO_ENV }}-virtual \
-          --repo-deploy-snapshots td-backend-maven-${{ env.REPO_ENV }}-local \
-          --repo-deploy-releases td-backend-maven-${{ env.REPO_ENV }}-local
+          --repo-resolve-snapshots ${{ env.VIRTUAL_REPO }} \
+          --repo-resolve-releases ${{ env.VIRTUAL_REPO }} \
+          --repo-deploy-snapshots ${{ env.LOCAL_REPO }} \
+          --repo-deploy-releases ${{ env.LOCAL_REPO }}
         # test and build
         jf mvn clean install --build-name=$BUILD_NAME --build-number=$GITHUB_RUN_NUMBER
 
     - name: Upload to Artifactory
       run: |
         # Upload JAR files to Artifactory local repository based on environment. Here specifies a virtual respoitory.
-        jf rt upload "target/*.jar" "td-backend-maven-${{ env.REPO_ENV }}-virtual/"
+        jf rt upload "target/*.jar" "${{ env.VIRTUAL_REPO }}"
 
         # Collect environment variables and add them to build (bce | build-collect-env)
         jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
