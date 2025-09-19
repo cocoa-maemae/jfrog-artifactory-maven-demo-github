@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>maven-sample</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
+  <artifactId>maven-sample-demo</artifactId>
+  <version>1.0.-SNAPSHOT</version>
   <name>maven-sample-demo</name>
   <description>Simple Maven package sample</description>
-  <url>https://example.com/maven-sample</url>
+  <url>https://example.com/maven-sample-demo</url>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
@@ -41,7 +41,7 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.15.2</version>
     </dependency>
-    <!-- Log4j 2.14.0 -->
+    <!-- Log4j 2.14.0 脆弱性あり -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
