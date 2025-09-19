@@ -6,7 +6,7 @@
 
   <groupId>com.example</groupId>
   <artifactId>maven-sample-demo</artifactId>
-  <version>1.0.-SNAPSHOT</version>
+  <version>1.0.5-SNAPSHOT</version>
   <name>maven-sample-demo</name>
   <description>Simple Maven package sample</description>
   <url>https://example.com/maven-sample-demo</url>
