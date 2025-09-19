@@ -104,7 +104,5 @@ jobs:
         jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
         # Collect VCS details from .git and add them to the build (bag | build-add-git)
         jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
-        # Adds dependencies from the local file-system to the build info.
-        jf rt bad $BUILD_NAME $GITHUB_RUN_NUMBER 
         # Publish build info (bp | build-publish)
         jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
