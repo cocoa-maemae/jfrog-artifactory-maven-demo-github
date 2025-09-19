@@ -97,9 +97,8 @@ jobs:
         jf rt upload "target/*.jar" "td-backend-maven-${{ env.REPO_ENV }}-virtual/"
 
         # Collect environment variables and add them to build (bce | build-collect-env)
-        #jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
+        jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
         # Collect VCS details from .git and add them to the build (bag | build-add-git)
-        #jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
+        jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
         # Publish build info (bp | build-publish)
-        #jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
-        jf rt bp
+        jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
