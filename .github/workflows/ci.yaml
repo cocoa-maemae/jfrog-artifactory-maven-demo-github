@@ -16,9 +16,9 @@ permissions:
 env:
   BUILD_NAME: "tomokim-maven-demo-github"
   #VIRTUAL_REPO: "td-backend-maven-dev-virtual"
-  VIRTUAL_REPO: "td-backend-maven-test-virtual"
+  VIRTUAL_REPO: "tv-backend-maven-test-virtual"
   #LOCAL_REPO: "td-backend-maven-dev-local"
-  LOCAL_REPO: "td-backend-maven-test-local"
+  LOCAL_REPO: "tv-backend-maven-test-local"
 
 jobs:
   test_build_publish:
