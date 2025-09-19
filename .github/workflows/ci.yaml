@@ -100,9 +100,11 @@ jobs:
         # Upload JAR files to Artifactory local repository based on environment. Here specifies a virtual respoitory.
         jf rt upload "target/*.jar" "${{ env.VIRTUAL_REPO }}"
 
-        # Collect environment variables and add them to build (bce | build-collect-env)
+        # Collect environment variables and add them to build (bce | build-collect-env)bad
         jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
         # Collect VCS details from .git and add them to the build (bag | build-add-git)
         jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
+        # Adds dependencies from the local file-system to the build info.
+        jf rt bad $BUILD_NAME $GITHUB_RUN_NUMBER 
         # Publish build info (bp | build-publish)
         jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
