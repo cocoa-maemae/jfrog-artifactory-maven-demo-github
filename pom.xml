@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>maven-sample</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
-  <name>maven-sample</name>
+  <artifactId>maven-sample-demo</artifactId>
+  <version>1.0.6-SNAPSHOT</version>
+  <name>maven-sample-demo</name>
   <description>Simple Maven package sample</description>
-  <url>https://example.com/maven-sample</url>
+  <url>https://example.com/maven-sample-demo</url>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
@@ -19,8 +19,8 @@
     <junit.jupiter.version>5.10.3</junit.jupiter.version>
     <!-- Artifactory settings -->
     <artifactory.baseUrl>https://soleng.jfrog.io/artifactory</artifactory.baseUrl>
-    <artifactory.repo.releases>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.releases>
-    <artifactory.repo.snapshots>tomokim-dev-backend-local-maven-dev-japan</artifactory.repo.snapshots>
+    <artifactory.repo.releases>tv-backend-maven-test-local</artifactory.repo.releases>
+    <artifactory.repo.snapshots>tv-backend-maven-test-local</artifactory.repo.snapshots>
   </properties>
 
   <dependencies>
@@ -40,6 +40,17 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.15.2</version>
+    </dependency>
+    <!-- Log4j 2.14.0 脆弱性あり -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.14.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.14.0</version>
     </dependency>
   </dependencies>
 

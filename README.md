@@ -51,14 +51,14 @@ mvn clean deploy
 
 - **トリガー**: `main`と`dev`ブランチへのプッシュ/プルリクエスト
 - **実行内容**:
-  - Java 21 + JFrog CLIでテストとビルドを実行
-  - Artifactoryへのアーティファクトアップロード
+  - Java 21以上でのビルド
+  - テストの実行
 
 ### JFrog Artifactory設定
 
-- **仮想リポジトリ**: `tomokim-dev-backend-maven-dev-virtual`
-- **ローカルリポジトリ**: `tomokim-dev-backend-maven-dev-local`
-- **リモートリポジトリ**: `tomokim-dev-backend-maven-dev-remote`
+- **仮想リポジトリ**: `***-virtual`
+- **ローカルリポジトリ**: `***-local`
+- **リモートリポジトリ**: `***-remote`
 
 ## プロジェクト構成
 
