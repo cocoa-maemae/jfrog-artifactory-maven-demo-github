@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>maven-sample-demo</artifactId>
+  <artifactId>maven-demo</artifactId>
   <version>1.0.6-SNAPSHOT</version>
-  <name>maven-sample-demo</name>
+  <name>maven-demo</name>
   <description>Simple Maven package sample</description>
-  <url>https://example.com/maven-sample-demo</url>
+  <url>https://example.com/maven-demo</url>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
