@@ -16,9 +16,9 @@ permissions:
 env:
   BUILD_NAME: "tomokim-maven-demo-github"
   #VIRTUAL_REPO: "td-backend-maven-dev-virtual"
-  VIRTUAL_REPO: "tv-backend-maven-test-virtual"
+  VIRTUAL_REPO: "tdl-backend-maven-test-virtual"
   #LOCAL_REPO: "td-backend-maven-dev-local"
-  LOCAL_REPO: "tv-backend-maven-test-local"
+  LOCAL_REPO: "tdl-backend-maven-test-local"
 
 jobs:
   test_build_publish:
@@ -32,11 +32,10 @@ jobs:
       uses: jfrog/setup-jfrog-cli@v4
       env:
         # JFrog platform url (for example: https://acme.jfrog.io)
-        JF_URL: https://soleng.jfrog.io 
+        JF_URL: https://solenglatest.jfrog.io 
       with:
-        # Name of the OIDC provider as specified on the OIDC integration page in the JFrog Platform
-        oidc-provider-name: tomokim-github-actions-integration 
-        oidc-audience: tomokim-github-actions-integration
+        oidc-provider-name: tomokim-solenglatest-github-oidc 
+        oidc-audience: tomokim-solenglatest-github-oidc-audience
     
     - name: Set up JDK 21
       uses: actions/setup-java@v4
@@ -93,7 +92,8 @@ jobs:
           --repo-deploy-snapshots ${{ env.LOCAL_REPO }} \
           --repo-deploy-releases ${{ env.LOCAL_REPO }}
         # test and build
-        jf mvn clean install --build-name=$BUILD_NAME --build-number=$GITHUB_RUN_NUMBER
+        jf mvn clean install --build-name=$BUILD_NAME --build-number=$GITHUB_RUN_NUMBER \
+          --project tdl
 
     - name: Upload to Artifactory
       run: |
@@ -101,11 +101,15 @@ jobs:
         jf rt upload "target/*.jar" "${{ env.VIRTUAL_REPO }}"
 
         # Collect environment variables and add them to build (bce | build-collect-env)bad
-        jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER 
+        jf rt bce $BUILD_NAME $GITHUB_RUN_NUMBER \
+          --project tdl
         # Collect VCS details from .git and add them to the build (bag | build-add-git)
-        jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER
+        jf rt bag $BUILD_NAME $GITHUB_RUN_NUMBER \
+          --project tdl
         # Publish build info (bp | build-publish)
-        jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBER
+        jf rt bp $BUILD_NAME $GITHUB_RUN_NUMBE \
+          --project tdl
         
-        # run xray
-        jf bs $BUILD_NAME $GITHUB_RUN_NUMBER
+        # run xray scan on demand
+        jf bs $BUILD_NAME $GITHUB_RUN_NUMBER \
+          --project tdl
